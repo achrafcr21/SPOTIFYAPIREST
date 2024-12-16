@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Spotify</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Buscador -->
+        <section id="buscador">
+            <h1>Buscar cançons</h1>
+            <input type="text" id="input-cerca" placeholder="Escriu el nom de la cançó" disabled>
+            <button id="btn-buscar" disabled>Buscar</button>
+            <button id="btn-borrar" disabled>Borrar</button>
+        </section>
+        
+        <!-- Resultats -->
+        <section id="resultats">
+            <p id="missatge">Fes una nova búsqueda</p>
+            <div id="cards-container"></div>
+        </section>
+
+        <!-- Informació -->
+        <section id="informacio">
+            <div id="informacio-artista">
+                <h2>Informació artista</h2>
+                <p>Selecciona una cançó per veure els detalls</p>
+            </div>
+            <div id="informacio-cançons">
+                <h2>Llista cançons</h2>
+                <ul id="llista-cancons">
+                    <!-- Aquí s'afegiran les cançons dinàmicament -->
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaf7e9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#app {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#buscador {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#buscador input {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+}
+
+#buscador button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: not-allowed;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+}
+
+#resultats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    width: 200px;
+    max-width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Animació a les targetes quan el cursor passa per sobre */
+.card:hover {
+    transform: scale(1.05); /* Lleuger zoom */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card p, .card h3 {
+    margin: 5px 0;
+    white-space: normal; /* Permet que el text continuï a la següent línia */
+    word-wrap: break-word; /* Trenca paraules llargues si és necessari */
+    overflow: hidden; /* Evita desbordaments visuals */
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* Informació i seccions */
+#informacio {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#informacio-artista, #informacio-cançons {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
