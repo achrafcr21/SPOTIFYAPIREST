@@ -83,40 +83,74 @@ function mostrarResultats(cancions) {
     const contenidor = document.getElementById('cards-container');
     contenidor.innerHTML = ''; // Esborrem els resultats anteriors
 
+    // Si no hi ha resultats
     if (cancions.length === 0) {
         contenidor.innerHTML = '<p>No s\'han trobat resultats.</p>';
         return;
     }
 
     // Recorrem cada cançó per crear la seva targeta
-    cancions.forEach(canco => {
-        const artistaId = canco.artists[0]?.id || '';
+    for (let i = 0; i < cancions.length; i++) {
+        const canco = cancions[i]; // Cadascuna de les cançons
+        const artistaId = canco.artists[0]?.id || ''; // Obtenim el ID del primer artista
 
-        // Creem un nou div per a cada targeta
+        // Creem el div per a la targeta
         const targeta = document.createElement('div');
         targeta.className = 'card';
-        targeta.setAttribute('onclick', `obtenirInformacioArtista('${artistaId}')`);
+        targeta.onclick = function() {
+            obtenirInformacioArtista(artistaId); // Assignem l'acció del clic
+        };
 
-        targeta.innerHTML = `
-            <img src="${canco.album.images[0]?.url || ''}" alt="Caràtula" width="150">
-            <h3>${canco.name}</h3>
-            <p>Artista: ${canco.artists[0]?.name || 'Desconegut'}</p>
-            <p>Àlbum: ${canco.album.name}</p>
-            <button onclick="afegirCanco('${canco.name}', '${canco.artists[0]?.name}'); event.stopPropagation();">
-                + Afegir cançó
-            </button>
-        `;
+        // Creem la imatge
+        const imatge = document.createElement('img');
+        imatge.src = canco.album.images[0]?.url || '';
+        imatge.alt = 'Caràtula';
+        imatge.width = 150;
+
+        // Creem el títol (h3)
+        const titol = document.createElement('h3');
+        titol.textContent = canco.name;
+
+        // Creem el paràgraf per a l'artista
+        const parArtista = document.createElement('p');
+        parArtista.textContent = `Artista: ${canco.artists[0]?.name || 'Desconegut'}`;
+
+        // Creem el paràgraf per a l'àlbum
+        const parAlbum = document.createElement('p');
+        parAlbum.textContent = `Àlbum: ${canco.album.name}`;
+
+        // Creem el botó
+        const boto = document.createElement('button');
+        boto.textContent = '+ Afegir cançó';
+        boto.onclick = function(event) {
+            afegirCanco(canco.name, canco.artists[0]?.name);
+            event.stopPropagation(); // Evitem que el clic del botó activi el clic de la targeta
+        };
+
+        // Afegim els elements al div de la targeta
+        targeta.appendChild(imatge);
+        targeta.appendChild(titol);
+        targeta.appendChild(parArtista);
+        targeta.appendChild(parAlbum);
+        targeta.appendChild(boto);
+
+        // Afegim la targeta al contenidor de resultats
         contenidor.appendChild(targeta);
-    });
+    }
 }
-
 // **Funció per afegir una cançó a la llista de la dreta**
-window.afegirCanco = function (nomCanco, nomArtista) {
+function afegirCanco(nomCanco, nomArtista) {
+    // Seleccionem el contenidor de la llista
     const llistaContenidor = document.getElementById('llista-cancons');
+
+    // Creem un nou element <li>
     const novaCanco = document.createElement('li');
     novaCanco.textContent = `${nomCanco} - ${nomArtista}`;
+
+    // Afegim la nova cançó a la llista
     llistaContenidor.appendChild(novaCanco);
 }
+
 
 // **Funció per obtenir informació detallada d'un artista a partir del seu ID**
 function obtenirInformacioArtista(artistaId) {
