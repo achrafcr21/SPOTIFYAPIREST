@@ -99,3 +99,65 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
 }
+
+/* Estils generals */
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.section {
+    flex: 1;
+    background-color: #c8e6c9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Estils dels items */
+.playlist-item, .canço-item {
+    background-color: #1b5e20;
+    color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Estils dels botons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.tornar {
+    margin-bottom: 20px;
+}
+
+button.del, button.add {
+    background-color: white;
+    color: black;
+    margin-left: 5px;
+}
+
+/* Input del nom de la playlist */
+.playlist-input {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+#playlist-name {
+    padding: 5px;
+    flex-grow: 1;
+}
+
+.error {
+    color: red;
+    padding: 10px;
+    background: #ffe6e6;
+    border-radius: 4px;
+}

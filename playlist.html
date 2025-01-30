@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pàgina Playlist</title>
+    <link rel="stylesheet" href="styles/playlist.css">
+</head>
+<body>
+    <h1>Pàgina Playlist</h1>
+    <button class="tornar" onclick="window.location.href='index.html'"><-- Tornar</button>
+
+    <div class="container">
+        <div class="section">
+            <h2>Playlists</h2>
+            <div id="playlist-container"></div>
+            <div class="playlist-input">
+                <input type="text" id="playlist-name">
+                <button class="save">Save</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Cançons</h2>
+            <div id="cançons-container">
+                <p>Selecciona una playlist</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Cançons Seleccionades</h2>
+            <div id="cançons-seleccionades-container"></div>
+        </div>
+    </div>
+
+    <script src="Script/playlist.js"></script>
+</body>
+</html>
