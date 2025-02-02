@@ -3,6 +3,12 @@ const clientSecret = 'aebea2dd7b89488a8f76d1d9170efe1b';
 const tokenUrl = 'https://accounts.spotify.com/api/token';
 let token = ''; // Guardarem aquí el token d'autenticació
 
+//Variables de la segona part de practica
+const URL = "https://accounts.spotify.com/authorize";
+const redirectUri = "http://127.0.0.1:5500/playlist.html";
+const scopes =
+  "playlist-modify-private user-library-modify playlist-modify-public";
+
 // **Funció per obtenir el token d'API de Spotify**
 function obtenirToken() {
     console.log('Iniciant obtenció del token...');
@@ -40,10 +46,12 @@ function habilitarBuscador() {
     document.getElementById('input-cerca').disabled = false;
     document.getElementById('btn-buscar').disabled = false;
     document.getElementById('btn-borrar').disabled = false;
+    document.getElementById('btn-playlist').disabled = false;
 
     // Estil dels botons quan estan habilitats
     document.getElementById('btn-buscar').style.cursor = 'pointer';
-    document.getElementById('btn-borrar').style.cursor = 'pointer';
+    document.getElementById('btn-borrar').style.cursor = 'pointer'; 
+    document.getElementById('btn-playlist').style.cursor = 'pointer';
 }
 
 // **Funció per buscar cançons a Spotify**
@@ -123,7 +131,7 @@ function mostrarResultats(cancions) {
         const boto = document.createElement('button');
         boto.textContent = '+ Afegir cançó';
         boto.onclick = function(event) {
-            afegirCanco(canco.name, canco.artists[0]?.name);
+            afegirCanco(canco);
             event.stopPropagation(); // Evitem que el clic del botó activi el clic de la targeta
         };
 
@@ -138,19 +146,29 @@ function mostrarResultats(cancions) {
         contenidor.appendChild(targeta);
     }
 }
-// **Funció per afegir una cançó a la llista de la dreta**
-function afegirCanco(nomCanco, nomArtista) {
-    // Seleccionem el contenidor de la llista
-    const llistaContenidor = document.getElementById('llista-cancons');
 
-    // Creem un nou element <li>
-    const novaCanco = document.createElement('li');
-    novaCanco.textContent = `${nomCanco} - ${nomArtista}`;
+// **Funció per afegir cançó
+function afegirCanco(track) {
+    // Guardar en localStorage
+    const cançons = JSON.parse(localStorage.getItem('cançons') || '[]');
+    const novaCanco = {
+        nom: track.name,
+        artista: track.artists[0].name,
+        uri: track.uri
+    };
+    cançons.push(novaCanco);
+    localStorage.setItem('cançons', JSON.stringify(cançons));
+    
+    // Console.log para debug
+    console.log("Cançó guardada en localStorage:", novaCanco);
+    console.log("Totes les cançons en localStorage:", cançons);
 
-    // Afegim la nova cançó a la llista
-    llistaContenidor.appendChild(novaCanco);
+    // Mostrar en la lista de canciones (recuperamos esta parte)
+    const llistaCançons = document.getElementById('llista-cancons');
+    const li = document.createElement('li');
+    li.textContent = `${track.name} - ${track.artists[0].name}`;
+    llistaCançons.appendChild(li);
 }
-
 
 // **Funció per obtenir informació detallada d'un artista a partir del seu ID**
 function obtenirInformacioArtista(artistaId) {
@@ -205,6 +223,21 @@ function esborrarBuscador() {
 // **Esdeveniments per als botons**
 document.getElementById('btn-buscar').addEventListener('click', buscarCançons);
 document.getElementById('btn-borrar').addEventListener('click', esborrarBuscador);
+
+// Funcion playlist:
+const autoritzar = function () {
+    const authUrl =
+      URL +
+      `?client_id=${clientId}` +
+      `&response_type=token` +
+      `&redirect_uri=${redirectUri}` +
+      `&scope=${scopes}`;
+  
+    window.location.assign(authUrl);
+  };
+  
+  // Assignar l'esdeveniment al botó
+  document.getElementById("btn-playlist").addEventListener("click", autoritzar);
 
 // **Crida inicial per obtenir el token**
 obtenirToken();
