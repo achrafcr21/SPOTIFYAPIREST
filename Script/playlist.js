@@ -123,7 +123,8 @@ async function eliminarCanço(uri) {
 // Funció per afegir cançó a playlist
 async function afegirAPlaylist(uri) {
     if (!currentPlaylistId) {
-        alert("Has de seleccionar una playlist");
+        const container = document.getElementById("cançons-container");
+        container.innerHTML = "<p style='color: red'>Has de seleccionar una playlist</p>";
         return;
     }
     if (!confirm("Estàs segur que vols afegir la cançó a la playlist?")) return;
@@ -140,20 +141,31 @@ async function afegirAPlaylist(uri) {
             })
         });
         if (!resposta.ok) throw new Error(`Error ${resposta.status}`);
-        alert("La cançó s'ha afegit correctament");
+        
         eliminarCançoGuardada(uri);
         seleccionarPlaylist(currentPlaylistId, document.getElementById("playlist-name").value);
     } catch (error) {
         console.error("Error al afegir cançó:", error);
+        const container = document.getElementById("cançons-container");
+        container.innerHTML = "<p style='color: red'>Error al afegir la cançó</p>";
     }
 }
 
 // Funció per eliminar cançó guardada
 function eliminarCançoGuardada(uri) {
-    if (!confirm("Estàs segur que vols eliminar la cançó de la llista de cançons guardades?")) return;
+    if (!confirm("Estàs segur que vols eliminar la cançó de la llista de cançons guardades?")) {
+        return;
+    }
     
-    const cançons = JSON.parse(localStorage.getItem('cançons') || '[]');
-    const novesCançons = cançons.filter(c => c.uri !== uri);
+    var cançons = JSON.parse(localStorage.getItem('cançons') || '[]');
+    var novesCançons = [];
+    
+    for (var i = 0; i < cançons.length; i++) {
+        if (cançons[i].uri !== uri) {
+            novesCançons.push(cançons[i]);
+        }
+    }
+    
     localStorage.setItem('cançons', JSON.stringify(novesCançons));
     carregarCançonsGuardades();
 }
@@ -161,11 +173,14 @@ function eliminarCançoGuardada(uri) {
 // Funció per modificar nom playlist
 async function modificarNomPlaylist() {
     if (!currentPlaylistId) return;
-    const nouNom = document.getElementById("playlist-name").value;
-    if (!confirm("Estàs segur que vols modificar el nom de la playlist?")) return;
+    var nouNom = document.getElementById("playlist-name").value;
+    
+    if (!confirm("Estàs segur que vols modificar el nom de la playlist?")) {
+        return;
+    }
 
     try {
-        const resposta = await fetch(`${apiUrl}/playlists/${currentPlaylistId}`, {
+        var resposta = await fetch(`${apiUrl}/playlists/${currentPlaylistId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -175,10 +190,16 @@ async function modificarNomPlaylist() {
                 name: nouNom
             })
         });
-        if (!resposta.ok) throw new Error(`Error ${resposta.status}`);
+        
+        if (!resposta.ok) {
+            throw new Error(`Error ${resposta.status}`);
+        }
+        
         carregarPlaylists();
     } catch (error) {
         console.error("Error al modificar nom:", error);
+        document.getElementById("playlist-container").innerHTML += 
+            "<p style='color: red'>Error al modificar el nom</p>";
     }
 }
 
